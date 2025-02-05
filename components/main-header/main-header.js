@@ -5,6 +5,7 @@ import Image from "next/image";
 import MainHeaderBackground from "@/components/main-header/main-header-background";
 
 export default function MainHeader() {
+  console.log("Executing");
   return (
     <>
       <MainHeaderBackground />

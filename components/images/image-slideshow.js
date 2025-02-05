@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -20,6 +22,9 @@ const images = [
   { image: tomatoSaladImg, alt: "A delicious tomato salad" },
 ];
 
+// ⭐️ These hooks are not available on the Server-side but on the Client-side⭐️
+// image-slidshow.js === Client Components that are pre-rendered on the server but then also portentially on the client.
+// => That's why you have to add 'use client' directive at the top of the code!
 export default function ImageSlideshow() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
