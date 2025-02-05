@@ -3,9 +3,15 @@ import classes from "./page.module.css";
 import MealsGrid from "@/components/meals/meals-grid";
 
 import { getMeals } from "@/lib/meals";
+import { Suspense } from "react";
 
-export default async function MealsPage() {
-  const meals = await getMeals(); // ⭐️ You don't need to use useEffect or fetch() request to get data! Since React Server Component(RSC) runs on the server by default, IT'S SAFE to directly reach out to the data base from here (even though you're not used to from other React apps. but it's absolutely fine in NextJS apps bc this is a server component that only runs in the server.)
+async function Meals() {
+  const meals = await getMeals();
+  return <MealsGrid meals={meals} />;
+}
+
+export default function MealsPage() {
+  // const meals = await getMeals(); // ⭐️ You don't need to use useEffect or fetch() request to get data! Since React Server Component(RSC) runs on the server by default, IT'S SAFE to directly reach out to the data base from here (even though you're not used to from other React apps. but it's absolutely fine in NextJS apps bc this is a server component that only runs in the server.)
 
   return (
     <>
@@ -22,7 +28,12 @@ export default async function MealsPage() {
         </p>
       </header>
       <main className={classes.main}>
-        <MealsGrid meals={meals} /> {/* ⭐️ */}
+        {/* <MealsGrid meals={meals} /> */}
+        <Suspense
+          fallback={<p className={classes.loading}>Fetching meals...</p>}
+        >
+          <Meals />
+        </Suspense>
       </main>
     </>
   );
