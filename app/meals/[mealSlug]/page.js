@@ -3,9 +3,15 @@ import Image from "next/image";
 import classes from "./page.module.css";
 
 import { getMeal } from "@/lib/meals";
+import { notFound } from "next/navigation";
 
 export default function MealsDetailPage({ params }) {
   const meal = getMeal(params.mealSlug);
+
+  // 유저가 존재하지 않는 메뉴의 상세페이지에 접근하려고 할 때 not-found.js 렌더링
+  if (!meal) {
+    notFound(); // next/navigation의 특별함수
+  }
 
   meal.instructions = meal.instructions.replace(/\n/g, "<br />");
 
