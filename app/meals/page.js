@@ -2,7 +2,11 @@ import Link from "next/link";
 import classes from "./page.module.css";
 import MealsGrid from "@/components/meals/meals-grid";
 
-export default function MealsPage() {
+import { getMeals } from "@/lib/meals";
+
+export default async function MealsPage() {
+  const meals = await getMeals(); // ⭐️ You don't need to use useEffect or fetch() request to get data! Since React Server Component(RSC) runs on the server by default, IT'S SAFE to directly reach out to the data base from here (even though you're not used to from other React apps. but it's absolutely fine in NextJS apps bc this is a server component that only runs in the server.)
+
   return (
     <>
       <header className={classes.header}>
@@ -18,7 +22,7 @@ export default function MealsPage() {
         </p>
       </header>
       <main className={classes.main}>
-        <MealsGrid meals={[]} />
+        <MealsGrid meals={meals} /> {/* ⭐️ */}
       </main>
     </>
   );
