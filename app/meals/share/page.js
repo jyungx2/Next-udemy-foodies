@@ -1,23 +1,12 @@
+"use client"; // 🚨서버액션을 실행하는 shareMeal 함수를 lib 폴더 안으로 분리하면 에러가 발생하지 않음.
+// 이유: Next.js의 빌드 프로세스는 서버와 클라이언트 코드를 완전히 분리하여 실행하지 못하기 때문에, 같은 컴포넌트 내에서 "use client"와 "use server"를 함께 사용할 수 없음.
+
 import ImagePicker from "@/components/meals/image-picker";
 import classes from "./page.module.css";
 
+import { shareMeal } from "@/lib/actions";
+
 export default function ShareMealPage() {
-  async function shareMeal(formData) {
-    ("use server"); // ⭐️ ShareMealPage 컴포넌트 자체가 이미 서버에서 실행되는 서버 컴포넌트이지만, 그 안에 위치한 함수의 경우, use server라는 코드를 통해 서버에서 실행되는 함수라는 것을 따로 명시해줘야 한다. & async도 붙여줘야 비로소 진정한 server action을 행하는 함수로 만들 수 있음! (You must explicitly state that it belongs to the server by adding this directive inside of them if you wanna create such a Server Action! So to make a function that's guaranteed to execute on the server.)
-
-    const meal = {
-      title: formData.get("title"), // input요소의 name 속성값으로 가져옴
-      summary: formData.get("summary"),
-      instructions: formData.get("instructions"),
-      image: formData.get("image"),
-      creator: formData.get("name"),
-      creator_email: formData.get("email"),
-    };
-
-    console.log(meal);
-    // 📝 120. You can use 'server actions' feature to create such this function that will be triggered when a form is submitted.
-  }
-
   return (
     <>
       <header className={classes.header}>
